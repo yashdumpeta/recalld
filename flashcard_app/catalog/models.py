@@ -22,17 +22,13 @@ class Deck(models.Model):
     pass
 
 class Card(models.Model):
-    #the deck, will delete the related objects when the reference object is deleted
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='cards') 
-    # when the card is created, auto sets the field to current date and time when object is created
-    created_at = models.DateTimeField(auto_now_add=True) 
-    # when the card is updated, auto sets the field to current date and time when object is updated
-    updated_at = models.DateTimeField(auto_now=True)
-    #front, the question user wants to answer
-    front_side = models.TextField()
-    #back, the answer to the front side
-    back_side = models.TextField()
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='cards') #the deck, will delete the related objects when the reference object is deleted
+    created_at = models.DateTimeField(auto_now_add=True)  # when the card is created, auto sets the field to current date and time when object is created
+    updated_at = models.DateTimeField(auto_now=True) # when the card is updated, auto sets the field to current date and time when object is updated
+    front_side = models.TextField() #front, the question user wants to answer
+    back_side = models.TextField() #back, the answer to the front side
     
-    
+    def __str__(self):
+        return f"{self.front} - {self.deck.name}"
     
     
