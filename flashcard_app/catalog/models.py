@@ -12,7 +12,7 @@ class Deck(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__ (self):
-        return self.deck_name, self.user
+        return self.deck_name
 
     def get_absolute_url(self):
         """Returns the url to access a particular genre instance."""
@@ -29,6 +29,6 @@ class Card(models.Model):
     back_side = models.TextField() #back, the answer to the front side
     
     def __str__(self):
-        return f"{self.front} - {self.deck.name}"
+        return f"{self.front_side} - {self.deck.deck_name}"
     
     
