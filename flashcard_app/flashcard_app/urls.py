@@ -19,9 +19,15 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from catalog.views import CreateUserView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView #pre-built views that help access access and refresh tokens
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("catalog/user/register/", CreateUserView.as_view(), name="register"), #when we go to this root, it will call createuser view and helps us reate user
+    path("catalog/token/", TokenObtainPairView.as_view(), name="get_token"),
+    path("catalog/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
+    path("catalog-auth/", include("rest_framework.urls")),
     path('catalog/', include('catalog.urls')),
     path('', RedirectView.as_view(url='catalog/', permanent=True)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
