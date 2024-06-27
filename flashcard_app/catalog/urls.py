@@ -8,4 +8,4 @@ router.register(r'cards', views.CardViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-]
+] 
