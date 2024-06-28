@@ -29,5 +29,4 @@ urlpatterns = [
     path("catalog/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("catalog-auth/", include("rest_framework.urls")),
     path('catalog/', include('catalog.urls')),
-    path('', RedirectView.as_view(url='catalog/', permanent=True)),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]

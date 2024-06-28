@@ -7,7 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "username", "password"]
         extra_kwargs = {"password": {"write_only": True}}
-        
+    
+    #ensures proper account creation upon validated_data that passes serializer's validation process. 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user

@@ -18,3 +18,28 @@ class DeckViewSet(viewsets.ModelViewSet):
 class CardViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer  
+    
+    
+    
+#this class basically develops a view that, when user is authenticated, he creates a 
+#When an authenticated user makes a GET request to the endpoint associated with this view:
+#The view will check if the user is authenticated.
+#If authenticated, it will retrieve all Deck objects created by that user.
+#These Deck objects will be serialized using the DeckSerializer.
+#The serialized data will be returned as a JSON response.
+
+class DeckListCreate(generics.ListCreateAPIView):
+    serializer_class = DeckSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def list_decks(self):
+        creator = self.request.user
+        return Deck.objects.filter(user = creator)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+
+
+  
+    
