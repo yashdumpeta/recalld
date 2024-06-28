@@ -28,5 +28,5 @@ urlpatterns = [
     path("catalog/token/", TokenObtainPairView.as_view(), name="get_token"),
     path("catalog/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("catalog-auth/", include("rest_framework.urls")),
-    path('catalog/', include('catalog.urls')),
+    path('catalog/', include('catalog.urls')), #this basically takes all url patterns in the catalog's urls.py file and basically gets the string that comes afters 'catalog/' and sees if it matches anything in the catalog/urls.py file
 ]
