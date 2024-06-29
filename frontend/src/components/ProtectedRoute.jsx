@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import api from "../api.js"
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ function ProtectedRoute({ children }) {
 
     //refresh access token 
     const refresh_token = async () => {
-        
+
         //get refresh token from our constants file
         const refresh_token = localStorage.getItem(REFRESH_TOKEN)
         //if no refresh token exists, just return false because this would never happen if someone had an account
@@ -26,7 +26,7 @@ function ProtectedRoute({ children }) {
             const response = await api.post("/api/token/refresh/", {
                 refresh: refresh_token
             });
-            
+
             //were able to set the access token, got back an access token, set the local storage's access token to the new one
             if (response.status === 200) {
                 localStorage.setItem(ACCESS_TOKEN, response.data.access)
@@ -77,7 +77,7 @@ function ProtectedRoute({ children }) {
         return <div>Loading...</div>
     }
 
-    return (isAllowed ? children : <Navigate to="/loginPage" />)
+    return (isAllowed ? children : <Navigate to="/login" />)
 }
 
 export default ProtectedRoute
