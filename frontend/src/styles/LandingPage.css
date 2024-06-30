@@ -1,0 +1,75 @@
+.page-container {
+    background-color: #161616;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+#slogan {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+#slogan-description {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 400;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    letter-spacing: -0.5px;
+}
+
+.cta-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#register-button {
+    background-color: #00a9a9;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+#register-button:hover {
+    background-color: #4cbfbf;
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        padding: 1rem;
+    }
+
+    #slogan {
+        margin-bottom: 0.5rem;
+    }
+
+    #slogan-description {
+        margin-bottom: 1.5rem;
+    }
+}
