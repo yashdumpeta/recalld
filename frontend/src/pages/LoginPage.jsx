@@ -1,10 +1,9 @@
 import React from 'react'
+import MyForm from '../components/Form'
 
 const LoginPage = () => {
   return (
-    <div>
-      Login
-    </div>
+    <MyForm route = "/catalog/token/" method="login"/>
   )
 }
 

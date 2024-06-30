@@ -11,7 +11,7 @@ import LandingPage from './pages/LandingPage'
 
 function Logout() {
   localStorage.clear()
-  return <Navigate to={"./login"} />
+  return <Navigate to={"/login"} />
 }
 
 
@@ -27,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<RegisterLogout />} />
           <Route 
             path="/dashboard" 

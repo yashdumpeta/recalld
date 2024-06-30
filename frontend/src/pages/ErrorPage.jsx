@@ -3,7 +3,8 @@ import React from 'react'
 const ErrorPage = () => {
   return (
     <div>
-      Error Page
+      <h1> 404 : Not Found</h1>
+      <p>Oops! No flashcards here!</p>
     </div>
   )
 }

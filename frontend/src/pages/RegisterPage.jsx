@@ -1,10 +1,9 @@
 import React from 'react'
+import MyForm from '../components/Form'
 
 const RegisterPage = () => {
   return (
-    <div>
-      Register
-    </div>
+    <MyForm route = "/catalog/user/register/" method="register"/>
   )
 }
 
