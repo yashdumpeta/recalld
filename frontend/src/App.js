@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardPage from './pages/DashboardPage'
 import LandingPage from './pages/LandingPage'
+import Header from './components/Header';
 
 function Logout() {
   localStorage.clear()
@@ -24,6 +25,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -37,7 +39,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          <Route path="*" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />} /> /* anything other case, this happens (error) */
         </Routes>
       </BrowserRouter>
     </div>
