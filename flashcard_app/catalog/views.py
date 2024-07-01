@@ -10,6 +10,22 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer #tells the view what kind of data needed to make a user
     permission_classes = [AllowAny] #who can call this
     
+from django.http import JsonResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    user = request.user
+    refresh = RefreshToken.for_user(user)
+    access_token = str(refresh.access_token)
+    refresh_token = str(refresh)
+    return JsonResponse({
+        'username': user.username,
+        'access_token': access_token,
+        'refresh_token': refresh_token,
+    })
 
 # # You can use these instead of the deckcreate and whatever if you want 
 # class DeckViewSet(viewsets.ModelViewSet):

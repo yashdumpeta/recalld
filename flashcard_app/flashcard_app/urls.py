@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
-from catalog.views import CreateUserView
+from catalog.views import CreateUserView, get_user_info
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView #pre-built views that help access access and refresh tokens
 
 urlpatterns = [
@@ -28,5 +28,6 @@ urlpatterns = [
     path("catalog/token/", TokenObtainPairView.as_view(), name="get_token"),
     path("catalog/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("catalog-auth/", include("rest_framework.urls")),
+    path('catalog/user-info/', get_user_info, name='get_user_info'),
     path('catalog/', include('catalog.urls')), #this basically takes all url patterns in the catalog's urls.py file and basically gets the string that comes afters 'catalog/' and sees if it matches anything in the catalog/urls.py file
 ]
