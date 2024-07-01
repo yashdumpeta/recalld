@@ -46,20 +46,24 @@ header {
   color: #00a9a9;
 }
 
-.register-button {
+.account-button {
   background-color: #00a9a9;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 5px;
 }
 
-.register-button:hover{
+.account-button:hover{
   background-color: #4cbfbf;
   color: white;
 }
 
 #free-signup:hover{
   color: white;
+}
+
+#username{
+  letter-spacing: -0.5px;
 }
 
 
@@ -100,7 +104,7 @@ header {
     display: flex;
   }
 
-  .register-button {
+  .account-button {
     margin-top: 1rem;
   }
 }

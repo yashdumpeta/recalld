@@ -1,13 +1,16 @@
+// src/components/Form.jsx
+
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { useAuth } from '../AuthContext';
 
 function MyForm({ route, method }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -16,8 +19,7 @@ function MyForm({ route, method }) {
         try {
             const response = await api.post(route, {username, password})
             if(method === "login"){
-                localStorage.setItem(ACCESS_TOKEN, response.data.access);
-                localStorage.setItem(REFRESH_TOKEN, response.data.refresh)
+                await login(response.data);
                 navigate("/dashboard")
             }
             else{
@@ -31,7 +33,7 @@ function MyForm({ route, method }) {
             setLoading(false)
         }
     }
-
+    
     return (
         <form onSubmit={handleSubmit} className="form-container">
             <h2>{method === "register" ? "Create an account" : "Sign in to your account"}</h2>
@@ -55,11 +57,11 @@ function MyForm({ route, method }) {
                     onChange={(e) => setPassword(e.target.value)} 
                 />
             </div>
-            <button className="form-submit-button" type="submit">
+            <button className="form-submit-button" type="submit" disabled={loading}>
                 {method === "register" ? "Sign up" : "Sign in"}
             </button>
         </form>
     )
-;}
+}
 
 export default MyForm

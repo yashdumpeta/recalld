@@ -1,10 +1,15 @@
+// src/components/Header.jsx
+
 import React, { useState } from 'react'
 import '../styles/Header.css'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,6 +20,11 @@ const Header = () => {
       event.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
   return (
@@ -32,8 +42,17 @@ const Header = () => {
           <nav className={`navbar ${isMenuOpen ? 'open' : ''}`}>
             <Link to='/'>Home</Link>
             <Link to='/Dashboard'>Dashboard</Link>
-            <Link to='/login'>Login</Link>
-            <Link id='free-signup' to='/register' className="register-button">Free signup</Link>
+            {user ? (
+              <>
+                <span id='username'>{user.username}</span>
+                <button className='account-button' onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to='/login'>Login</Link>
+                <Link id='free-signup' to='/register' className="account-button">Sign up</Link>
+              </>
+            )}
           </nav>
         </div>
       </header>

@@ -1,5 +1,6 @@
+// src/App.js
+
 import './App.css';
-// import Header from './components/Header';
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage'
@@ -9,12 +10,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DashboardPage from './pages/DashboardPage'
 import LandingPage from './pages/LandingPage'
 import Header from './components/Header';
+import { AuthProvider } from './AuthContext';
 
 function Logout() {
   localStorage.clear()
   return <Navigate to={"/login"} />
 }
-
 
 function RegisterLogout() {
   localStorage.clear()
@@ -23,26 +24,28 @@ function RegisterLogout() {
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<RegisterLogout />} />
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } 
-          />
-          <Route path="*" element={<ErrorPage />} /> /* anything other case, this happens (error) */
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/register" element={<RegisterLogout />} />
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </AuthProvider>
   );
 }
 
