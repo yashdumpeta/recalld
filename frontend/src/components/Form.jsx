@@ -3,9 +3,6 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 
-
-//route = where redirected after submitting form
-//method = register/login
 function MyForm({ route, method }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -17,9 +14,8 @@ function MyForm({ route, method }) {
         e.preventDefault();
 
         try {
-            const response = await api.post(route, {username, password}) //post to the route that was passed to the form, passes 
+            const response = await api.post(route, {username, password})
             if(method === "login"){
-                //if no error, get the access token and refresh token and sets them
                 localStorage.setItem(ACCESS_TOKEN, response.data.access);
                 localStorage.setItem(REFRESH_TOKEN, response.data.refresh)
                 navigate("/dashboard")
@@ -34,20 +30,36 @@ function MyForm({ route, method }) {
         finally {
             setLoading(false)
         }
-
     }
-
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
-            <h1>{method === "login" ? "Login" : "Register"}</h1>
-            <input className="form-input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username">
-            </input>
-            <input className="form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password">
-            </input>
-            <button className="form-submit-buttom" type="submit">{method === "login" ? "Login" : "Register"}</button>
+            <h2>{method === "register" ? "Create an account" : "Sign in to your account"}</h2>
+            <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input 
+                    id="username"
+                    className="form-input" 
+                    type="text" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input 
+                    id="password"
+                    className="form-input" 
+                    type="password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                />
+            </div>
+            <button className="form-submit-button" type="submit">
+                {method === "register" ? "Sign up" : "Sign in"}
+            </button>
         </form>
     )
-}
+;}
 
 export default MyForm
