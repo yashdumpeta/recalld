@@ -1,5 +1,9 @@
+/* Existing styles */
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -34,5 +38,30 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* New styles for dashboard layout */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e;
+}
+
+#header-container {
+  flex-shrink: 0;
+}
+
+.dashboard-container {
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust this value based on your header height */
+}
+
+/* Responsive layout for smaller screens */
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    height: auto;
   }
 }

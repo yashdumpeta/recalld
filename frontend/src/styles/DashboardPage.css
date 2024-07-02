@@ -1,0 +1,156 @@
+.dashboard-container {
+    display: flex;
+    height: calc(100vh - 60px);
+    /* Adjust this value based on your header height */
+    color: #fff;
+    background-color: #0f0f0f;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #121212;
+    padding: 20px;
+}
+
+#menu-title {
+    text-align: left;
+    padding-left: 2px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar button {
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    letter-spacing: -0.3px;
+    border-radius: 7px;
+
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+    background-color: #37373d;
+    border-radius: 7px;
+    border-color: #1177bb;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: white;
+    overflow-y: auto;
+    border-top-left-radius: 35px;
+}
+
+.main-content header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: black;
+    border-bottom: 1px black solid;
+}
+
+/* This is for my decks page for the create deck button*/
+#create-deck-button {
+    background-color: #33b249;
+    color: white;
+    font-weight: 800;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    /* Vertically center the icon and text */
+    padding: 10px 13px;
+    /* Add some padding for better appearance */
+    border: none;
+    font-size: 0.8rem;
+    letter-spacing: -0.2px;
+}
+
+
+.user-info {
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 24px;
+    color: white;
+    transition-duration: 0.3s;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+}
+
+.user-info:hover {
+    color: #00a9a9;
+}
+
+.overview-content,
+.my-decks-content {
+    background-color: black;
+    padding: 20px;
+    border-radius: 5px;
+    letter-spacing: -0.3px;
+}
+
+.big-number {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.deck-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.deck-item {
+    background-color: #37373d;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.deck-actions {
+    margin-top: 10px;
+}
+
+.deck-actions button {
+    background-color: #0e639c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.deck-actions button:hover {
+    background-color: #1177bb;
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+}
