@@ -33,13 +33,13 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterLogout />} />
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <DashboardPage />
                 </ProtectedRoute>
-              } 
+              }
             />
             <Route path="*" element={<ErrorPage />} />
           </Routes>

@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+// src/components/ProtectedRoute.jsx
+
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 function ProtectedRoute({ children }) {
-    const { user, refreshToken, checkAuthStatus } = useAuth();
+    const { user, loading } = useAuth();
 
-    useEffect(() => {
-        if (!user) {
-            checkAuthStatus();
-        }
-    }, [user, checkAuthStatus]);
-
-    if (user === null) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div>Loading...</div>; // Or a loading spinner
     }
 
-    return user ? children : <Navigate to="/login" />;
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
+    return children;
 }
 
 export default ProtectedRoute;
