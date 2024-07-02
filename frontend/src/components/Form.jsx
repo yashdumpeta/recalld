@@ -27,7 +27,7 @@ function MyForm({ route, method }) {
             }
         }
         catch (error) {
-            alert("Some error")
+            alert("Error logging in")
         }
         finally {
             setLoading(false)
