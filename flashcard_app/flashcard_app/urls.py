@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
-from catalog.views import CreateUserView, get_user_info
+from catalog.views import CreateUserView, get_user_info, DeckCreate
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView #pre-built views that help access access and refresh tokens
 
 urlpatterns = [

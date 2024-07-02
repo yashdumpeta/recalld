@@ -9,7 +9,9 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all() #this is for all the different user objects that we are looking at when creating a new one
     serializer_class = UserSerializer #tells the view what kind of data needed to make a user
     permission_classes = [AllowAny] #who can call this
-    
+
+
+#view for user data
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -27,15 +29,7 @@ def get_user_info(request):
         'refresh_token': refresh_token,
     })
 
-# # You can use these instead of the deckcreate and whatever if you want 
-# class DeckViewSet(viewsets.ModelViewSet):
-#     queryset = Deck.objects.all()
-#     serializer_class = DeckSerializer
-    
-# class CardViewSet(viewsets.ModelViewSet):
-#     queryset = Card.objects.all()
-#     serializer_class = CardSerializer  
-    
+
     
     
 #this class basically develops a view that, when user is authenticated, he creates a 
@@ -48,11 +42,10 @@ def get_user_info(request):
 class DeckCreate(generics.ListCreateAPIView):
     serializer_class = DeckSerializer
     permission_classes = [IsAuthenticated]
-    
-    def list_decks(self):
-        creator = self.request.user
-        return Deck.objects.filter(user = creator)
-    
+
+    def get_queryset(self):
+        return Deck.objects.filter(user=self.request.user)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         
