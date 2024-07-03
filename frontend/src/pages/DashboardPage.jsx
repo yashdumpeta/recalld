@@ -4,12 +4,14 @@ import api from '../api';
 import '../styles/DashboardPage.css'
 import { FaBook, FaHome } from 'react-icons/fa';
 import CreateModal from '../components/CreateModal';
+import EditDeckModal from '../components/EditModal';
 
 
 const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const { user } = useAuth();
+  const [editingDeck, setEditingDeck] = useState(null)
 
   useEffect(() => {
     fetchDecks();
@@ -18,6 +20,10 @@ const DashboardPage = () => {
   const addNewDeck = (newDeck) => {
     setDecks([...decks, newDeck]);
   };
+
+  const handleEdit = (deck) => {
+    setEditingDeck(deck)
+  }
 
   const fetchDecks = async () => {
     try {
@@ -42,7 +48,6 @@ const DashboardPage = () => {
 
   const renderDecks = () => (
     <div className="my-decks-content">
-      <h2 id='my-decks'>My Decks</h2>
 
       {decks.length === 0 ? (
         <p>You don't have any decks yet. Create one to start recalling!</p>
@@ -55,13 +60,20 @@ const DashboardPage = () => {
               <p>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
               <p>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
               <div className="deck-actions">
-                <button>Edit</button>
-                <button onClick={() => handleDelete(deck.id)}>Delete</button>
+              <button onClick={() => handleEdit(deck)}>Edit</button>
+              <button onClick={() => handleDelete(deck.id)}>Delete</button>
                 <button>Study</button>
               </div>
             </li>
           ))}
         </ul>
+      )}
+      {editingDeck && (
+        <EditDeckModal
+          deck={editingDeck}
+          onClose={() => setEditingDeck(null)}
+          onUpdate={handleUpdateDeck}
+        />
       )}
     </div>
   )
@@ -77,6 +89,17 @@ const DashboardPage = () => {
       }
      }
   }
+
+  const handleUpdateDeck = async (updatedDeck) => {
+    try {
+      const response = await api.patch(`/catalog/decks/${updatedDeck.id}/update/`, updatedDeck);
+      setDecks(decks.map(deck => deck.id === updatedDeck.id ? response.data : deck));
+      setEditingDeck(null);
+    } catch (error) {
+      console.error("Error updating deck:", error);
+      alert("Failed to update the deck");
+    }
+  };
 
   
 

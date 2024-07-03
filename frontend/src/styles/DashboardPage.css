@@ -140,3 +140,67 @@
         padding: 10px;
     }
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: -0.2px;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    letter-spacing: -0.2px;
+  }
+  
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    letter-spacing: -0.2px;
+  }
+  
+  .modal-content button {
+    margin-right: 10px;
+    letter-spacing: -0.2px;
+  }
+
+  #edit-header{
+    color: gray;
+    letter-spacing: -0.2px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  #update-button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    flex: 0 0 45%; /* This makes each button take up 45% of the container width */
+    color: white;
+    background-color: #4CAF50;
+  }
+
+  #cancel-button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    flex: 0 0 45%;
+    background-color: #f44336;
+    color: white;
+  }
