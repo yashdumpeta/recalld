@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import '../styles/CreateModal.css';
 import { FaPlus } from "react-icons/fa";
-import fetchDecks from "../pages/DashboardPage.jsx";
 import api from "../api.js";
 
-export default function Modal() {
+export default function Modal({ uponCreation }) {
 
     const [modal, setModal] = useState(false);
     const [new_deckname, set_new_deckname] = useState('');
@@ -22,15 +21,11 @@ export default function Modal() {
                 description: deckDescription
             });
             console.log('Deck created', create_response.data);
-            await fetchDecks(); // Wait for fetchDecks to complete
+            uponCreation(create_response.data);
+            toggleModal();
         } catch (error) {
             console.error("Error creating deck", error);
         }
-    };
-
-    const handleCreateButtonClick = async (e) => {
-        await handleCreateDeck(e);
-        toggleModal();
     };
 
     return (
@@ -63,12 +58,14 @@ export default function Modal() {
                             value={deckDescription}
                             onChange={(e) => set_deckDescription(e.target.value)}
                         />
-                        <button id="discard-deck" onClick={toggleModal}>
-                            Discard
-                        </button>
-                        <button id="save-deck" onClick={handleCreateButtonClick}>
-                            Create
-                        </button>
+                        <div className="modal-buttons">
+                            <button id="discard-deck" onClick={toggleModal}>
+                                Discard
+                            </button>
+                            <button id="save-deck" onClick={handleCreateDeck}>
+                                Create
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

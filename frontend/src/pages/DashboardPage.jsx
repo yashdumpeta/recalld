@@ -15,6 +15,10 @@ const DashboardPage = () => {
     fetchDecks();
   }, [])
 
+  const addNewDeck = (newDeck) => {
+    setDecks([...decks, newDeck]);
+  };
+
   const fetchDecks = async () => {
     try {
       const res = await api.get('/catalog/decks/')
@@ -25,9 +29,6 @@ const DashboardPage = () => {
       setDecks([]);
     }
   }
-
-
-
 
 
   const renderOverview = () => (
@@ -55,7 +56,7 @@ const DashboardPage = () => {
               <p>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
               <div className="deck-actions">
                 <button>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => handleDelete(deck.id)}>Delete</button>
                 <button>Study</button>
               </div>
             </li>
@@ -64,6 +65,20 @@ const DashboardPage = () => {
       )}
     </div>
   )
+
+  const handleDelete = async (deleteId) => {
+    if(window.confirm("Are you sure you want to delete this Deck?")){
+      try{
+        await api.delete(`/catalog/decks/${deleteId}/`)
+        setDecks(decks.filter(deck => deck.id !== deleteId)); //re display all the decks whose Id isnt deleteId
+      } catch (error){
+        console.error("Error deleting deck", error)
+        alert("Uh oh! Failed to delete this deck");
+      }
+     }
+  }
+
+  
 
   return (
     <div className="dashboard-container">
@@ -90,7 +105,7 @@ const DashboardPage = () => {
         <header>
           <h2>{activeTab === 'overview' ? 'Dashboard' : 'My Decks'}</h2>
           {activeTab === 'mydecks' ? (
-            <CreateModal />
+            <CreateModal uponCreation={addNewDeck} />
           ) : ''}
         </header>
         {activeTab === 'overview' ? renderOverview() : renderDecks()}

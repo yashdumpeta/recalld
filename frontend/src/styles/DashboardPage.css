@@ -114,6 +114,7 @@
     margin-right: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    border-radius: 7px;
 }
 
 .deck-actions button:hover {
