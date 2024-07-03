@@ -15,7 +15,7 @@
 
 #menu-title {
     text-align: left;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 
 .sidebar nav {
@@ -61,21 +61,6 @@
     border-bottom: 1px black solid;
 }
 
-/* This is for my decks page for the create deck button*/
-#create-deck-button {
-    background-color: #33b249;
-    color: white;
-    font-weight: 800;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    /* Vertically center the icon and text */
-    padding: 10px 13px;
-    /* Add some padding for better appearance */
-    border: none;
-    font-size: 0.8rem;
-    letter-spacing: -0.2px;
-}
 
 
 .user-info {

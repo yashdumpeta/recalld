@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext';
 import api from '../api';
 import '../styles/DashboardPage.css'
-import { FaBook, FaHome, FaPlus } from 'react-icons/fa';
+import { FaBook, FaHome } from 'react-icons/fa';
+import CreateModal from '../components/CreateModal';
+
 
 const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
-  const [new_deckname, set_new_deckname] = useState('')
-  const [deckDescription, set_deckDescription] = useState('')
   const [activeTab, setActiveTab] = useState('overview');
   const { user } = useAuth();
 
@@ -28,23 +28,7 @@ const DashboardPage = () => {
 
 
 
-  const createDeck = async (e) => {
-    e.preventDefault();
-    try {
-      const create_response = await api.post('/catalog/decks/',
-        {
-          deck_name: new_deckname,
-          description: deckDescription
-        }
-      )
-      console.log('Deck created', create_response.data)
-      await fetchDecks(); // Wait for fetchDecks to complete
-      set_new_deckname('');
-      set_deckDescription('');
-    } catch (error) {
-      console.error("Error creating deck", error)
-    }
-  }
+
 
   const renderOverview = () => (
     <div className="overview-content">
@@ -97,7 +81,7 @@ const DashboardPage = () => {
             className={activeTab === 'mydecks' ? 'active' : ''}
             onClick={() => setActiveTab('mydecks')}
           >
-            <FaBook style={{ marginRight: '8px'}} />
+            <FaBook style={{ marginRight: '8px' }} />
             My Decks
           </button>
         </nav>
@@ -106,12 +90,8 @@ const DashboardPage = () => {
         <header>
           <h2>{activeTab === 'overview' ? 'Dashboard' : 'My Decks'}</h2>
           {activeTab === 'mydecks' ? (
-            <button id='create-deck-button'>
-              <FaPlus style={{ marginRight: '8px'}} />
-              Create Deck
-            </button>
+            <CreateModal />
           ) : ''}
-          <div className="user-info">{user.username}</div>
         </header>
         {activeTab === 'overview' ? renderOverview() : renderDecks()}
       </div>
