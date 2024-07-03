@@ -27,6 +27,8 @@ class Card(models.Model):
     updated_at = models.DateTimeField(auto_now=True) # when the card is updated, auto sets the field to current date and time when object is updated
     front_side = models.TextField() #front, the question user wants to answer
     back_side = models.TextField() #back, the answer to the front side
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     
     def __str__(self):
         return f"{self.front_side} - {self.deck.deck_name}"

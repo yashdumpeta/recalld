@@ -22,5 +22,6 @@ class DeckSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = '__all__'
+        fields = ['id', 'deck', 'created_at', 'updated_at', 'front_side', 'back_side']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'user']
         

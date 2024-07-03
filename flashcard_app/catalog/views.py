@@ -62,3 +62,70 @@ class DeckDelete(generics.DestroyAPIView):
     
     
 
+class DeckUpdate(generics.UpdateAPIView):
+    serializer_class = DeckSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Deck.objects.filter(user = self.request.user)
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object() # gets the object that user wants to update
+        serializer = self.get_serializer(instance, data=request.data, partial=True) #makes a serializer instance, and uses partial=True to say that not all args are needed
+        serializer.is_valid(raise_exception=True) #checks if its valid with serializers expectations
+        self.perform_update(serializer) #saves updated instance to db
+        return Response(serializer.data) #returns response
+
+
+class DeckRetrieve(generics.RetrieveAPIView):
+    serializer_class = DeckSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Deck.objects.filter(user=self.request.user)
+    
+
+
+class CardListCreate(generics.ListCreateAPIView):
+    serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self): 
+        url_deck_id = self.kwargs.get('deck_id') #get the deck id from the URL keyword args
+        return Card.objects.filter(deck_id=url_deck_id, deck__user=self.request.user)
+
+    def perform_create(self, serializer):
+        deck_id = self.kwargs.get('deck_id') #extracts deck_id from the URL keyword args (kwargs) (assuming url has deck_id parameter)
+        deck = Deck.objects.get(id = deck_id, user = self.request.user)
+        serializer.save(deck=deck, user=self.request.user)
+
+    
+class CardDelete(generics.DestroyAPIView):
+    serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Card.objects.filter(deck__user=self.request.user)
+    
+
+class CardUpdate(generics.UpdateAPIView):
+    serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Card.objects.filter(deck__user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+class CardRetrieve(generics.RetrieveAPIView):
+    serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Card.objects.filter(deck__user = self.request.user)
