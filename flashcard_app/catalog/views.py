@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from .models import Deck, Card
 from .serializers import DeckSerializer, CardSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all() #this is for all the different user objects that we are looking at when creating a new one
@@ -30,15 +31,6 @@ def get_user_info(request):
     })
 
 
-    
-    
-#this class basically develops a view that, when user is authenticated, he creates a 
-#When an authenticated user makes a GET request to the endpoint associated with this view:
-#The view will check if the user is authenticated.
-#If authenticated, it will retrieve all Deck objects created by that user.
-#These Deck objects will be serialized using the DeckSerializer.
-#The serialized data will be returned as a JSON response.
-
 class DeckCreate(generics.ListCreateAPIView):
     serializer_class = DeckSerializer
     permission_classes = [IsAuthenticated]
@@ -55,9 +47,18 @@ class DeckDelete(generics.DestroyAPIView):
     serializer_class = DeckSerializer
     permission_classes = [IsAuthenticated]
     
-    def list_decks(self):
-        creator = self.request.user
-        return Deck.objects.filter(user = creator)
+    
+    def get_queryset(self):
+        return Deck.objects.filter(user=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.user != self.request.user:
+            return Response({"detail": "You do not have permission to delete this deck."}, 
+                status=status.HTTP_403_FORBIDDEN)
+        self.perform_destroy(instance)
+        return Response({"detail": "Deck deleted successfully."}, 
+                        status=status.HTTP_204_NO_CONTENT)
     
     
-    
+

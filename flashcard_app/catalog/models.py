@@ -30,5 +30,6 @@ class Card(models.Model):
     
     def __str__(self):
         return f"{self.front_side} - {self.deck.deck_name}"
-    
+
+
 
