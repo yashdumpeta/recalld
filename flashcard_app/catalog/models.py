@@ -22,12 +22,23 @@ class Deck(models.Model):
     pass
 
 class Card(models.Model):
+    
+    DIFFICULTY_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+        ('xhard', 'Extra Hard')
+    ]
+    
+    
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='cards') #the deck, will delete the related objects when the reference object is deleted
     created_at = models.DateTimeField(auto_now_add=True)  # when the card is created, auto sets the field to current date and time when object is created
     updated_at = models.DateTimeField(auto_now=True) # when the card is updated, auto sets the field to current date and time when object is updated
     front_side = models.TextField() #front, the question user wants to answer
     back_side = models.TextField() #back, the answer to the front side
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='medium', null=True)
+
 
     
     def __str__(self):

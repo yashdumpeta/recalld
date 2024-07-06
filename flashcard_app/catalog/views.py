@@ -90,16 +90,28 @@ class CardListCreate(generics.ListCreateAPIView):
     serializer_class = CardSerializer
     permission_classes = [IsAuthenticated]
 
-
     def get_queryset(self): 
-        url_deck_id = self.kwargs.get('deck_id') #get the deck id from the URL keyword args
+        url_deck_id = self.kwargs.get('deck_id')
         return Card.objects.filter(deck_id=url_deck_id, deck__user=self.request.user)
 
-    def perform_create(self, serializer):
-        deck_id = self.kwargs.get('deck_id') #extracts deck_id from the URL keyword args (kwargs) (assuming url has deck_id parameter)
-        deck = Deck.objects.get(id = deck_id, user = self.request.user)
-        serializer.save(deck=deck, user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        deck_id = self.kwargs.get('deck_id')
+        try:
+            deck = Deck.objects.get(id=deck_id, user=self.request.user)
+        except Deck.DoesNotExist:
+            return Response({"detail": "Deck not found or you don't have permission."}, 
+                            status=status.HTTP_404_NOT_FOUND)
+        
+        self.perform_create(serializer, deck)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def perform_create(self, serializer, deck):
+        serializer.save(deck=deck, user=self.request.user)
+    
     
 class CardDelete(generics.DestroyAPIView):
     serializer_class = CardSerializer
