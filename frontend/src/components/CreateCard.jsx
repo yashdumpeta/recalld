@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../api.js";
 import '../styles/CreateCard.css'
+import { FaPlus } from "react-icons/fa";
 
 export default function Modal({ uponCreation, deckId }) {
 
@@ -9,10 +10,10 @@ export default function Modal({ uponCreation, deckId }) {
     const [back, setBack] = useState('');
     const [difficulty, setdifficulty] = useState('easy');  // Change from 'Option 1' to 'easy'
 
- 
-    const handleChange = (e) => { 
-      setdifficulty(e.target.value); 
-    }; 
+
+    const handleChange = (e) => {
+        setdifficulty(e.target.value);
+    };
 
     const toggleModal = () => {
         setModal(!modal);
@@ -22,7 +23,7 @@ export default function Modal({ uponCreation, deckId }) {
         e.preventDefault();
         try {
             console.log('Attempting to create card with:', { deckId, front, back, difficulty });
-    
+
             const create_response = await api.post(`/catalog/decks/${deckId}/cards/`, {
                 front_side: front,
                 back_side: back,
@@ -45,6 +46,7 @@ export default function Modal({ uponCreation, deckId }) {
                 id='create-card-button'
                 onClick={toggleModal}
             >
+                <FaPlus style={{ marginRight: '8px' }} />
                 Add a card
             </button>
 
@@ -52,7 +54,7 @@ export default function Modal({ uponCreation, deckId }) {
                 <div className="modal">
                     <div className="modal-content">
                         <p id="description">Make a flashcard for your deck.</p>
-                        <h3 id="front-header">Front of Flashcard</h3>
+                        <h4 id="front-header">Front of Flashcard</h4>
                         <input
                             type="text"
                             id="front-input"
@@ -60,7 +62,7 @@ export default function Modal({ uponCreation, deckId }) {
                             value={front}
                             onChange={(e) => setFront(e.target.value)}
                         />
-                        <h3 id="back-header">Back of Flashcard</h3>
+                        <h4 id="back-header">Back of Flashcard</h4>
                         <input
                             type="text"
                             id="back-input"
@@ -68,11 +70,14 @@ export default function Modal({ uponCreation, deckId }) {
                             value={back}
                             onChange={(e) => setBack(e.target.value)}
                         />
+                        <h4 id="difficulty-header">Difficulty <span id="optional">(Optional)</span></h4> 
+
                         <select value={difficulty} onChange={handleChange} id="difficulty-input">
                             <option value="easy">Easy</option>
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
                             <option value="xhard">XHard</option>
+                            <option value="none">-</option>
                         </select>
 
                         <div className="modal-buttons">
