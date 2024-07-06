@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../AuthContext';
 import api from '../api';
 import '../styles/DashboardPage.css'
 import { FaBook, FaHome } from 'react-icons/fa';
 import CreateModal from '../components/CreateModal';
 import EditDeckModal from '../components/EditModal';
+import { useNavigate } from 'react-router-dom';
 
 
 const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
-  const { user } = useAuth();
   const [editingDeck, setEditingDeck] = useState(null)
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDecks();
@@ -60,8 +60,9 @@ const DashboardPage = () => {
               <p>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
               <p>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
               <div className="deck-actions">
-              <button onClick={() => handleEdit(deck)}>Edit</button>
-              <button onClick={() => handleDelete(deck.id)}>Delete</button>
+                <button onClick={() => handleEdit(deck)}>Edit</button>
+                <button onClick={() => handleDelete(deck.id)}>Delete</button>
+                <button onClick={() => navigate(`/manage-cards/${deck.id}`)}>Manage Cards</button>
                 <button>Study</button>
               </div>
             </li>
@@ -79,15 +80,15 @@ const DashboardPage = () => {
   )
 
   const handleDelete = async (deleteId) => {
-    if(window.confirm("Are you sure you want to delete this Deck?")){
-      try{
+    if (window.confirm("Are you sure you want to delete this Deck?")) {
+      try {
         await api.delete(`/catalog/decks/${deleteId}/`)
         setDecks(decks.filter(deck => deck.id !== deleteId)); //re display all the decks whose Id isnt deleteId
-      } catch (error){
+      } catch (error) {
         console.error("Error deleting deck", error)
         alert("Uh oh! Failed to delete this deck");
       }
-     }
+    }
   }
 
   const handleUpdateDeck = async (updatedDeck) => {
@@ -101,7 +102,8 @@ const DashboardPage = () => {
     }
   };
 
-  
+
+
 
   return (
     <div className="dashboard-container">

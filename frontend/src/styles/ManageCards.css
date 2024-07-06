@@ -1,0 +1,131 @@
+#main-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 95%; /* This ensures some padding on very wide screens */
+}
+
+#header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    flex-wrap: nowrap;
+}
+.left-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#back-button {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height: 40px; /* Set a fixed height */
+}
+
+#managecards-header {
+    margin: 0;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    line-height: 40px; /* Match the height of the buttons */
+}
+
+#create-card-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px; /* Set a fixed height */
+    display: flex;
+    align-items: center;
+}
+
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.front-side, .back-side {
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.front-side {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.back-side {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+.difficulty {
+    font-size: 0.75rem;
+    font-weight: 300;
+    text-transform: capitalize;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+
+/* Media Queries for better responsiveness */
+@media (max-width: 768px) {
+    #header-block {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #create-card-button {
+        margin-top: 10px;
+        align-self: flex-start;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .left-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #back-button {
+        margin-bottom: 10px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}

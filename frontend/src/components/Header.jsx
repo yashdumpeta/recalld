@@ -42,6 +42,7 @@ const Header = () => {
           <nav className={`navbar ${isMenuOpen ? 'open' : ''}`}>
             <Link to='/'>Home</Link>
             <Link to='/dashboard'>Dashboard</Link>
+            
             {user ? (
               <>
                 <span id='username'>{user.username}</span>
