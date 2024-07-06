@@ -27,7 +27,8 @@ class Card(models.Model):
         ('easy', 'Easy'),
         ('medium', 'Medium'),
         ('hard', 'Hard'),
-        ('xhard', 'Extra Hard')
+        ('xhard', 'Extra Hard'),
+        ('-', '-')
     ]
     
     
