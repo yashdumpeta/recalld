@@ -5,7 +5,6 @@ import { FaBook, FaHome, FaTrash, FaPencilAlt } from 'react-icons/fa';
 import CreateModal from '../components/CreateModal';
 import EditDeckModal from '../components/EditModal';
 import { useNavigate } from 'react-router-dom';
-import StudyPage from './StudyPage';
 
 const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
@@ -103,13 +102,12 @@ const DashboardPage = () => {
 
   const renderStudy = () => (
     <div className="study-content">
-      <h2>Choose a Deck to Study</h2>
-      <div className="deck-list">
+      <div className="deck-grid">
         {decks.map(deck => (
           <div key={deck.id} className="deck-item">
             <h3>{deck.deck_name}</h3>
             <p>{deck.description}</p>
-            <button onClick={() => navigate(`/study/${deck.id}`)}>Start Study Session</button>
+            <button onClick={() => navigate(`/study/${deck.id}`)}>Start recalling</button>
           </div>
         ))}
       </div>
@@ -140,7 +138,7 @@ const DashboardPage = () => {
             className={activeTab === 'study' ? 'active' : ''}
             onClick={() => setActiveTab('study')}
           >
-            <FaBook style={{ marginRight: '8px' }} />
+            <FaPencilAlt style={{ marginRight: '8px' }} />
             Study
           </button>
         </nav>

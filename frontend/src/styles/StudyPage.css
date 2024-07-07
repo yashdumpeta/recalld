@@ -1,0 +1,267 @@
+.entire-container {
+    background-color: #121212;
+    letter-spacing: -0.4px;
+}
+
+.study-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 95%;
+    height: 100vh;
+    background-color: #121212;
+}
+
+#study-header {
+    color: white;
+    letter-spacing: -0.4px;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+#back-button {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height: 40px;
+    transition: background-color 0.3s;
+}
+
+#back-button:hover {
+    background-color: black;
+    color: white;
+}
+
+#header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.card-container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card {
+    text-align: left;
+    padding: 10px;
+    height: 43vh;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #333;
+    /* Default text color */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Smooth transition */
+}
+
+/* StudyPage.css */
+
+/* Add this CSS to style the card when showAnswer is true */
+.card.dark-mode {
+    background-color: #000000;
+    /* Black background */
+    color: #ffffff;
+    /* White text */
+}
+
+/* Add this CSS to style the text elements in the dark mode */
+.card.dark-mode .card-header,
+.card.dark-mode .card-content,
+.card.dark-mode .current {
+    color: #ffffff;
+    /* White text */
+}
+
+/* Optional: Style the button and difficulty span if needed */
+.card.dark-mode .flip-button {
+    color: #ffffff;
+    /* White text for the button */
+    background-color: #333333;
+    /* Dark gray background for the button */
+}
+
+.card.dark-mode #difficulty {
+    color: black;
+    /* White text for the difficulty span */
+}
+
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin: 20px;
+}
+
+
+
+
+
+.card h2 {
+    font-size: 18px;
+    color: #6b6b6b;
+    margin: 0;
+}
+
+.card-content {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease-in-out;
+    margin: 20px;
+}
+
+.card-content.show-answer {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.card p {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#current.dark-mode {
+    color: white;
+}
+
+#difficulty {
+    margin: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
+    color: black;
+    font-size: 0.8rem;
+    align-items: center;
+}
+
+.flip-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.flip-button:hover {
+    background-color: #e0e0e0;
+}
+
+.card-stack {
+    background: repeating-linear-gradient(to bottom,
+            #e0e0e0,
+            #e0e0e0 1px,
+            white 1px,
+            white 2px);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-top: 10px;
+}
+
+#nav-button {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height: 40px;
+    transition: background-color 0.3s;
+}
+
+#nav-button:hover {
+    background-color: black;
+    color: white;
+}
+
+#prog {
+    color: white;
+}
+
+.dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1f1f1f;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dark-overlay.show {
+    background-color: white;
+}
+
+/* ---------------------------------------------------------------- */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+}
+
+.loader {
+    height: 50px;
+    aspect-ratio: 2;
+    border: 10px solid #000;
+    box-sizing: border-box;
+    background:
+        radial-gradient(farthest-side, #fff 98%, #0000) left/20px 20px,
+        radial-gradient(farthest-side, #fff 98%, #0000) left/20px 20px,
+        radial-gradient(farthest-side, #fff 98%, #0000) center/20px 20px,
+        radial-gradient(farthest-side, #fff 98%, #0000) right/20px 20px,
+        #000;
+    background-repeat: no-repeat;
+    filter: blur(4px) contrast(10);
+    animation: l14 1s infinite;
+}
+
+@keyframes l14 {
+    100% {
+        background-position: right, left, center, right
+    }
+}

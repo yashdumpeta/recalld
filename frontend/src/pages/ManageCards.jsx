@@ -61,49 +61,52 @@ const ManageCards = () => {
     };
 
     return (
-        <div id='main-container'>
-            <h1 id='managecards-header'>Manage cards</h1>
+        <div id="entire">
 
-            <div id='header-block'>
-                <div className="left-header">
-                    <button id='back-button' onClick={() => navigate('/dashboard')}><FaArrowLeft style={{ marginRight: '8px' }} /> Back</button>
+            <div id='main-container'>
+                <h1 id='managecards-header'>Manage cards</h1>
+
+                <div id='header-block'>
+                    <div className="left-header">
+                        <button id='back-button' onClick={() => navigate('/dashboard')}><FaArrowLeft style={{ marginRight: '8px' }} /> Back</button>
+                    </div>
+                    <div className="filter-sort-container">
+                        <select className="styled-select" value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)}>
+                            <option value="all">All Difficulties</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="xhard">XHard</option>
+                            <option value="none">None</option>
+                        </select>
+                        <select className="styled-select" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+                            <option value="none">No Sorting</option>
+                            <option value="ascending">Easiest to Hardest</option>
+                            <option value="descending">Hardest to Easiest</option>
+                        </select>
+                    </div>
+                    <CreateCard uponCreation={addNewCard} deckId={deckId} />
                 </div>
-                <div className="filter-sort-container">
-                    <select className="styled-select" value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)}>
-                        <option value="all">All Difficulties</option>
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                        <option value="xhard">XHard</option>
-                        <option value="none">None</option>
-                    </select>
-                    <select className="styled-select" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-                        <option value="none">No Sorting</option>
-                        <option value="ascending">Easiest to Hardest</option>
-                        <option value="descending">Hardest to Easiest</option>
-                    </select>
-                </div>
-                <CreateCard uponCreation={addNewCard} deckId={deckId} />
+                {cards.length === 0 ? (
+                    <p id='no-cards'>No cards found for this deck.</p>
+                ) : (
+                    <div className="card-grid">
+                        {cards
+                            .filter(card => difficultyFilter === 'all' || card.difficulty === difficultyFilter)
+                            .sort((a, b) => sortOrder === 'none' ? 0 : compareDifficulties(a, b))
+                            .map(card => {
+                                const cardColor = getDifficultyColor(card.difficulty || 'none');
+                                return (
+                                    <div key={card.id} className="card">
+                                        <h3 className='front-side'>{card.front_side}</h3>
+                                        <p className='back-side'>{card.back_side}</p>
+                                        <span className='difficulty' style={{ backgroundColor: cardColor, opacity: 0.9 }}>{card.difficulty || 'none'}</span>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                )}
             </div>
-            {cards.length === 0 ? (
-                <p id='no-cards'>No cards found for this deck.</p>
-            ) : (
-                <div className="card-grid">
-                    {cards
-                        .filter(card => difficultyFilter === 'all' || card.difficulty === difficultyFilter)
-                        .sort((a, b) => sortOrder === 'none' ? 0 : compareDifficulties(a, b))
-                        .map(card => {
-                            const cardColor = getDifficultyColor(card.difficulty || 'none');
-                            return (
-                                <div key={card.id} className="card" style={{ backgroundColor: cardColor, opacity: 0.9 }}>
-                                    <h3 className='front-side'>{card.front_side}</h3>
-                                    <p className='back-side'>{card.back_side}</p>
-                                    <span className='difficulty'>{card.difficulty || 'none'}</span>
-                                </div>
-                            );
-                        })}
-                </div>
-            )}
         </div>
     )
 }

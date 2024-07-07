@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api from '../api'
 import '../styles/StudyPage.css'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 const StudyPage = () => {
-
   const [deck, setDeck] = useState(null)
   const [cards, setCards] = useState([])
   const [currentCardIndex, setcurrentCardIndex] = useState(0)
@@ -13,69 +13,127 @@ const StudyPage = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true);
 
+  const Loader = () => {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     fetchDeckAndCards();
   }, [deckId]);
 
   const fetchDeckAndCards = async () => {
+    const minLoadTime = 1000; // 1 second
+
+    const start = Date.now();
     try {
-      const deckResponse = await api.get(`/catalog/decks/${deckId}/`)
-      setDeck(deckResponse.data)
+      const deckResponse = await api.get(`/catalog/decks/${deckId}/`);
+      setDeck(deckResponse.data);
 
-      const cardResponse = await api.get(`/catalog/decks/${deckId}/cards/`)
-      const cardResponse_data = Array.isArray(cardResponse.data) ? cardResponse.data : cardResponse.data.results
-      setCards(Array.isArray(cardResponse_data) ? cardResponse_data : [])
-
+      const cardResponse = await api.get(`/catalog/decks/${deckId}/cards/`);
+      const cardResponse_data = Array.isArray(cardResponse.data) ? cardResponse.data : cardResponse.data.results;
+      setCards(Array.isArray(cardResponse_data) ? cardResponse_data : []);
     } catch (error) {
-      console.error("Error getting the cards for this deck", error)
+      console.error("Error getting the cards for this deck", error);
+    } finally {
+      const elapsed = Date.now() - start;
+      const remainingTime = minLoadTime - elapsed;
+
+      if (remainingTime > 0) {
+        setTimeout(() => setIsLoading(false), remainingTime);
+      } else {
+        setIsLoading(false);
+      }
     }
-    finally {
-      setIsLoading(false)
-    }
-  }
+  };
 
   const handleNext = () => {
-    setshowAnswer(false)
-    setcurrentCardIndex((prev) => (prev + 1) % cards.length)
-  }
+    setshowAnswer(false);
+    setcurrentCardIndex((prev) => (prev + 1) % cards.length);
+  };
 
   const handlePrev = () => {
-    setshowAnswer(false)
-    setcurrentCardIndex((prev) => (prev - 1 + cards.length) % cards.length)
-  }
+    setshowAnswer(false);
+    setcurrentCardIndex((prev) => (prev - 1 + cards.length) % cards.length);
+  };
+
+  const getStackHeight = () => {
+    const totalCards = cards.length;
+    const maxHeight = 10; // Maximum height in pixels
+    const minHeight = 2; // Minimum height in pixels
+    return Math.max(minHeight, Math.min(maxHeight, totalCards));
+  };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!deck || cards.length === 0) {
     return <div>No cards found for this deck.</div>;
   }
 
-  const currentCard = cards[currentCardIndex]
+  const getDifficultyColor = (difficulty) => {
+    switch (difficulty) {
+      case 'easy':
+        return { backgroundColor: '#90EE90' };  // Light green
+      case 'medium':
+        return { backgroundColor: '#FFD700' };  // Gold
+      case 'hard':
+        return { backgroundColor: '#ff4500' };  // Light salmon
+      case 'xhard':
+        return { backgroundColor: '#dc143c' };  // Tomato
+      case 'none':
+        return { backgroundColor: '#FFFFFF' };  // White
+      default:
+        return { backgroundColor: '#FFFFFF' };
+    }
+  };
 
-
+  const currentCard = cards[currentCardIndex];
 
   return (
-    <div className="study-page">
-      <h2 id="study-header">Studying {deck.deck_name} </h2>
-      <div className="card-container">
-        <div className="card">
-          <h2>{showAnswer ? 'Answer' : 'Question'}</h2>
-          <p>{showAnswer ? currentCard.back_side : currentCard.front_side}</p>
+    <div className='entire-container'>
+      <div className="study-page">
+        <div id="header-block">
+          <div className="left-header">
+            <button id='back-button' onClick={() => navigate('/dashboard')}><FaArrowLeft style={{ marginRight: '8px' }} /> Back</button>
+          </div>
+          <div className="right-header">
+            <h3 id="study-header">{deck.deck_name} </h3>
+          </div>
         </div>
-        <button onClick={() => setshowAnswer(!showAnswer)}>
-          {showAnswer ? 'Show Question' : 'Show Answer'}
-        </button>
+
+        <div className="card-container">
+          <div className={`card ${showAnswer ? 'dark-mode' : ''}`}>
+            <div className={`card-header ${showAnswer ? 'dark-mode' : ''}`}>
+              <h2 className={`current ${showAnswer ? 'dark-mode' : ''}`}>
+                {showAnswer ? 'Answer' : 'Question'}
+                <span id="difficulty" style={getDifficultyColor(currentCard.difficulty)}>
+                  {currentCard.difficulty}
+                </span>
+              </h2>
+              <button className="flip-button" onClick={() => setshowAnswer(!showAnswer)}>
+                {showAnswer ? 'Question' : 'Answer'}
+              </button>
+            </div>
+            <p className={`card-content ${showAnswer ? 'show-answer' : ''}`}>
+              {showAnswer ? currentCard.back_side : currentCard.front_side}
+            </p>
+          </div>
+          <div className="card-stack" style={{ height: `${getStackHeight()}px` }}></div>
+        </div>
+
+        <div className="navigation">
+          <button id='nav-button' onClick={handlePrev}><FaArrowLeft /></button>
+          <span id='prog'>{currentCardIndex + 1} / {cards.length}</span>
+          <button id='nav-button' onClick={handleNext}><FaArrowRight /></button>
+        </div>
       </div>
-      <div className="navigation">
-        <button onClick={handlePrev}>Previous</button>
-        <span>{currentCardIndex + 1} / {cards.length}</span>
-        <button onClick={handleNext}>Next</button>
-      </div>
-      <button onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
     </div>
-  )
+  );
 }
 
-export default StudyPage
+export default StudyPage;
