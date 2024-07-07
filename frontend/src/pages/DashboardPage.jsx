@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api';
 import '../styles/DashboardPage.css'
-import { FaBook, FaHome, FaTrash, FaPencilAlt} from 'react-icons/fa';
+import { FaBook, FaHome, FaTrash, FaPencilAlt } from 'react-icons/fa';
 import CreateModal from '../components/CreateModal';
 import EditDeckModal from '../components/EditModal';
 import { useNavigate } from 'react-router-dom';
-
+import StudyPage from './StudyPage';
 
 const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
@@ -48,24 +48,24 @@ const DashboardPage = () => {
 
   const renderDecks = () => (
     <div className="my-decks-content">
-
       {decks.length === 0 ? (
         <p>You don't have any decks yet. Create one to start recalling!</p>
       ) : (
-          <div className="deck-grid">
-            {decks.map(deck => (
-              <div key={deck.id} className="deck-item">
-                <h3>{deck.deck_name}</h3>
-                <p>{deck.description}</p>
-                <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
-                <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
-                <div className="deck-actions">
-                  <button onClick={() => handleEdit(deck)}><FaPencilAlt className='icon-style'/></button>
-                  <button onClick={() => handleDelete(deck.id)}><FaTrash className='icon-style'/></button>
-                </div>
+        <div className="deck-grid">
+          {decks.map(deck => (
+            <div key={deck.id} className="deck-item">
+              <h3>{deck.deck_name}</h3>
+              <p>{deck.description}</p>
+              <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
+              <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
+              <div className="deck-actions">
+                <button onClick={() => handleEdit(deck)}><FaPencilAlt className='icon-style' /></button>
+                <button onClick={() => handleDelete(deck.id)}><FaTrash className='icon-style' /></button>
+                <button onClick={() => navigate(`/study/${deck.id}`)}><FaBook className='icon-style' /></button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
       )}
       {editingDeck && (
         <EditDeckModal
@@ -77,10 +77,11 @@ const DashboardPage = () => {
     </div>
   )
 
+
   const handleDelete = async (deleteId) => {
     if (window.confirm("Are you sure you want to delete this Deck?")) {
       try {
-        await api.delete(`/catalog/decks/${deleteId}/`)
+        await api.delete(`/catalog/decks/${deleteId}/delete`)
         setDecks(decks.filter(deck => deck.id !== deleteId)); //re display all the decks whose Id isnt deleteId
       } catch (error) {
         console.error("Error deleting deck", error)
@@ -100,7 +101,20 @@ const DashboardPage = () => {
     }
   };
 
-
+  const renderStudy = () => (
+    <div className="study-content">
+      <h2>Choose a Deck to Study</h2>
+      <div className="deck-list">
+        {decks.map(deck => (
+          <div key={deck.id} className="deck-item">
+            <h3>{deck.deck_name}</h3>
+            <p>{deck.description}</p>
+            <button onClick={() => navigate(`/study/${deck.id}`)}>Start Study Session</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 
 
   return (
@@ -122,16 +136,33 @@ const DashboardPage = () => {
             <FaBook style={{ marginRight: '8px' }} />
             My Decks
           </button>
+          <button
+            className={activeTab === 'study' ? 'active' : ''}
+            onClick={() => setActiveTab('study')}
+          >
+            <FaBook style={{ marginRight: '8px' }} />
+            Study
+          </button>
         </nav>
       </div>
       <div className="main-content">
         <header>
-          <h2>{activeTab === 'overview' ? 'Dashboard' : 'My Decks'}</h2>
+          <h2>
+            {activeTab === 'overview'
+              ? 'Dashboard'
+              : activeTab === 'mydecks'
+                ? 'My Decks'
+                : 'Study'}
+          </h2>
           {activeTab === 'mydecks' ? (
             <CreateModal uponCreation={addNewDeck} />
           ) : ''}
         </header>
-        {activeTab === 'overview' ? renderOverview() : renderDecks()}
+        {activeTab === 'overview'
+          ? renderOverview()
+          : activeTab === 'mydecks'
+            ? renderDecks()
+            : renderStudy()}
       </div>
     </div>
   )

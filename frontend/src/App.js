@@ -12,14 +12,15 @@ import LandingPage from './pages/LandingPage'
 import Header from './components/Header';
 import { AuthProvider } from './AuthContext';
 import ManageCards from './pages/ManageCards';
+import StudyPage from './pages/StudyPage';
 
 function Logout() {
   localStorage.clear()
   return <Navigate to={"/login"} />
 }
 
-function RegisterLogout() { 
-  localStorage.clear() 
+function RegisterLogout() {
+  localStorage.clear()
   return <RegisterPage />
 }
 
@@ -42,7 +43,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/manage-cards/:deckId" element={<ManageCards />} />
+            <Route
+              path="/manage-cards/:deckId"
+              element={
+                <ProtectedRoute>
+                  <ManageCards />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/study/:deckId"
+              element={
+                <ProtectedRoute>
+                  <StudyPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
