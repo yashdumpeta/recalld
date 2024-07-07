@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const EditDeckModal = ({ deck, onClose, onUpdate }) => {
   const [deckName, setDeckName] = useState(deck.deck_name);
   const [description, setDescription] = useState(deck.description);
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate({ ...deck, deck_name: deckName, description });
@@ -25,6 +26,7 @@ const EditDeckModal = ({ deck, onClose, onUpdate }) => {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter a description..."
           />
+          <button id='manage-cards' onClick={() => navigate(`/manage-cards/${deck.id}`)}>Manage Cards</button>
           <button id='update-button' type="submit">Update Deck</button>
           <button id='cancel-button' type="button" onClick={onClose}>Cancel</button>
         </form>

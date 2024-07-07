@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api';
 import '../styles/DashboardPage.css'
-import { FaBook, FaHome } from 'react-icons/fa';
+import { FaBook, FaHome, FaTrash, FaPencilAlt} from 'react-icons/fa';
 import CreateModal from '../components/CreateModal';
 import EditDeckModal from '../components/EditModal';
 import { useNavigate } from 'react-router-dom';
@@ -52,22 +52,20 @@ const DashboardPage = () => {
       {decks.length === 0 ? (
         <p>You don't have any decks yet. Create one to start recalling!</p>
       ) : (
-        <ul className="deck-list">
-          {decks.map(deck => (
-            <li key={deck.id} className="deck-item">
-              <h3>{deck.deck_name}</h3>
-              <p>{deck.description}</p>
-              <p>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
-              <p>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
-              <div className="deck-actions">
-                <button onClick={() => handleEdit(deck)}>Edit</button>
-                <button onClick={() => handleDelete(deck.id)}>Delete</button>
-                <button onClick={() => navigate(`/manage-cards/${deck.id}`)}>Manage Cards</button>
-                <button>Study</button>
+          <div className="deck-grid">
+            {decks.map(deck => (
+              <div key={deck.id} className="deck-item">
+                <h3>{deck.deck_name}</h3>
+                <p>{deck.description}</p>
+                <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
+                <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
+                <div className="deck-actions">
+                  <button onClick={() => handleEdit(deck)}><FaPencilAlt className='icon-style'/></button>
+                  <button onClick={() => handleDelete(deck.id)}><FaTrash className='icon-style'/></button>
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
       )}
       {editingDeck && (
         <EditDeckModal
