@@ -72,6 +72,7 @@ const DashboardPage = () => {
         <EditDeckModal
           deck={editingDeck}
           onClose={() => setEditingDeck(null)}
+          
           onUpdate={handleUpdateDeck}
         />
       )}
