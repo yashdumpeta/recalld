@@ -53,13 +53,15 @@ const DashboardPage = () => {
         <div className="deck-grid">
           {decks.map(deck => (
             <div key={deck.id} className="deck-item">
-              <h3>{deck.deck_name}</h3>
-              <p>{deck.description}</p>
-              <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
-              <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
+              <h1 id='deck-name'>{deck.deck_name}</h1>
+              <p id='deck-description'>{deck.description}</p>
+              <div className="dates">
+                <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
+                <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
+              </div>
               <div className="deck-actions">
                 <button onClick={() => handleEdit(deck)}><FaPencilAlt className='icon-style' /></button>
-                <button onClick={() => handleDelete(deck.id)}><FaTrash className='icon-style' /></button>
+                <button id='delete-button' onClick={() => handleDelete(deck.id)}><FaTrash className='icon-style' /></button>
                 <button onClick={() => navigate(`/study/${deck.id}`)}><FaBook className='icon-style' /></button>
               </div>
             </div>
@@ -102,15 +104,19 @@ const DashboardPage = () => {
 
   const renderStudy = () => (
     <div className="study-content">
-      <div className="deck-grid">
-        {decks.map(deck => (
-          <div key={deck.id} className="deck-item">
-            <h3>{deck.deck_name}</h3>
-            <p>{deck.description}</p>
-            <button onClick={() => navigate(`/study/${deck.id}`)}>Start recalling</button>
-          </div>
-        ))}
-      </div>
+      {decks.length === 0 ? (
+        <p>You don't have any decks yet. Create one to start recalling!</p>
+      ) : (
+        <div className="deck-grid">
+          {decks.map(deck => (
+            <div key={deck.id} className="deck-item">
+              <h3>{deck.deck_name}</h3>
+              <p>{deck.description}</p>
+              <button onClick={() => navigate(`/study/${deck.id}`)}>Start recalling</button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 

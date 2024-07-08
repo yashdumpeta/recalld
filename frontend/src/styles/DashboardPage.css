@@ -96,24 +96,50 @@
 
 .deck-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 20px;
 }
 
 .deck-item {
-    background-color: black;
+    background-color: white;
     margin-bottom: 10px;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 10px;
+    color: black;
+    position: relative;
 }
 
 .deck-actions {
-    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+    /* Aligns children to the left */
+    gap: 10px;
+    /* Optional: Adds some space between buttons */
+    margin-top: 30px;
+}
+
+.dates {
+    position: absolute;
+    bottom: 0px;
+    right: 10px;
+    text-align: right;
+    margin: 10px;
+}
+
+#created, #updated{
+    font-size: 0.9rem;
+    color: gray;
+}
+
+
+#delete-button:hover {
+    color: white;
+    background-color: black;
 }
 
 .deck-actions button {
-    background-color: black;
-    color: #fff;
+    background-color: white;
+    color: black;
     border: none;
     padding: 5px 10px;
     margin-right: 5px;
@@ -123,8 +149,8 @@
 }
 
 .deck-actions button:hover {
-    background-color: white;
-    color: black;
+    color: white;
+    background-color: black;
 }
 
 @media screen and (max-width: 768px) {
@@ -212,7 +238,7 @@
     color: white;
 }
 
-#manage-cards{
+#manage-cards {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -227,4 +253,17 @@
     display: flex;
     align-items: center;
     padding: 5px;
+}
+
+
+#deck-name {
+    text-align: left;
+    margin: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+#deck-description {
+    text-align: left;
+    margin: 10px;
 }

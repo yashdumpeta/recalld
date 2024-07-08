@@ -60,13 +60,6 @@ const StudyPage = () => {
     setcurrentCardIndex((prev) => (prev - 1 + cards.length) % cards.length);
   };
 
-  const getStackHeight = () => {
-    const totalCards = cards.length;
-    const maxHeight = 10; // Maximum height in pixels
-    const minHeight = 2; // Minimum height in pixels
-    return Math.max(minHeight, Math.min(maxHeight, totalCards));
-  };
-
   if (isLoading) {
     return <Loader />;
   }
@@ -107,7 +100,7 @@ const StudyPage = () => {
         </div>
 
         <div className="card-container">
-          <div className={`card ${showAnswer ? 'dark-mode' : ''}`}>
+          <div className={`flashcard ${showAnswer ? 'dark-mode' : ''}`}>
             <div className={`card-header ${showAnswer ? 'dark-mode' : ''}`}>
               <h2 className={`current ${showAnswer ? 'dark-mode' : ''}`}>
                 {showAnswer ? 'Answer' : 'Question'}
@@ -123,14 +116,19 @@ const StudyPage = () => {
               {showAnswer ? currentCard.back_side : currentCard.front_side}
             </p>
           </div>
-          <div className="card-stack" style={{ height: `${getStackHeight()}px` }}></div>
+          <div className='options'>
+
+            <div className="navigation">
+              <button id='nav-button' onClick={handlePrev}><FaArrowLeft /></button>
+              <span id='prog'>{currentCardIndex + 1} / {cards.length}</span>
+              <button id='nav-button' onClick={handleNext}><FaArrowRight /></button>
+            </div>
+            <div className="userProg">
+              {/* <button id="correct">  </button> */}
+            </div>
+          </div>
         </div>
 
-        <div className="navigation">
-          <button id='nav-button' onClick={handlePrev}><FaArrowLeft /></button>
-          <span id='prog'>{currentCardIndex + 1} / {cards.length}</span>
-          <button id='nav-button' onClick={handleNext}><FaArrowRight /></button>
-        </div>
       </div>
     </div>
   );

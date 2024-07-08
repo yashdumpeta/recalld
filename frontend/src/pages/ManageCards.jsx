@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaTrash } from 'react-icons/fa'
 import api from '../api'
 import CreateCard from '../components/CreateCard'
 import '../styles/ManageCards.css'
+import { FaPencil } from 'react-icons/fa6'
+import EditCardModal from '../components/EditCard'
 
 
 const ManageCards = () => {
@@ -12,7 +14,18 @@ const ManageCards = () => {
     const navigate = useNavigate();
     const [sortOrder, setSortOrder] = useState('none');
     const [difficultyFilter, setDifficultyFilter] = useState('all');
+    const [isLoading, setIsLoading] = useState(true);
+    const [editingCard, setEditingCard] = useState(null)
 
+
+
+    const Loader = () => {
+        return (
+            <div className="loader-container">
+                <div className="loader"></div>
+            </div>
+        );
+    };
 
 
     const getDifficultyColor = (difficulty) => {
@@ -37,6 +50,8 @@ const ManageCards = () => {
     }, [deckId])
 
     const fetch_cards_for_deck = async (deckId) => {
+        const minLoadTime = 1200; // 1 second
+        const start = Date.now();
         try {
             const response = await api.get(`/catalog/decks/${deckId}/cards/`);
             const cardsData = Array.isArray(response.data) ? response.data : response.data.results;
@@ -44,7 +59,20 @@ const ManageCards = () => {
         } catch (error) {
             console.error("Error getting the cards for this deck", error);
             setCards([]);
+        } finally {
+            const elapsed = Date.now() - start;
+            const remainingTime = minLoadTime - elapsed;
+
+            if (remainingTime > 0) {
+                setTimeout(() => setIsLoading(false), remainingTime);
+            } else {
+                setIsLoading(false);
+            }
         }
+    }
+
+    if (isLoading) {
+        return <Loader />;
     }
 
     const addNewCard = (newCard) => {
@@ -59,6 +87,34 @@ const ManageCards = () => {
         const indexB = difficultyOrder.indexOf(b.difficulty || 'none');
         return sortOrder === 'ascending' ? indexA - indexB : indexB - indexA;
     };
+
+    const handleEdit = (card) => {
+        setEditingCard(card)
+    }
+
+    const handleUpdateCard = async (updatedCard) => {
+        try {
+            const response = await api.patch(`/catalog/cards/${updatedCard.id}/update/`, updatedCard);
+            setCards(cards.map(card => card.id === updatedCard.id ? response.data : card));
+            setEditingCard(null);
+        } catch (error) {
+            console.error("Error updating deck:", error);
+            alert("Failed to update the deck");
+        }
+    };
+
+
+    const handleDelete = async (deleteId) => {
+        if (window.confirm("Are you sure you want to delete this Card?")) {
+            try {
+                await api.delete(`/catalog/cards/${deleteId}/delete`)
+                setCards(cards.filter(card => card.id !== deleteId)); //re display all the decks whose Id isnt deleteId
+            } catch (error) {
+                console.error("Error deleting card", error)
+                alert("Uh oh! Failed to delete this card");
+            }
+        }
+    }
 
     return (
         <div id="entire">
@@ -101,10 +157,19 @@ const ManageCards = () => {
                                         <h3 className='front-side'>{card.front_side}</h3>
                                         <p className='back-side'>{card.back_side}</p>
                                         <span className='difficulty' style={{ backgroundColor: cardColor, opacity: 0.9 }}>{card.difficulty || 'none'}</span>
+                                        <button className='edit-card' onClick={() => handleEdit(card)}><FaPencil className='icon-style' /></button>
+                                        <button className='delete-button' onClick={() => handleDelete(card.id)}><FaTrash className='icon-style' /></button>
                                     </div>
                                 );
                             })}
                     </div>
+                )}
+                {editingCard && (
+                    <EditCardModal
+                        card={editingCard}
+                        onClose={() => setEditingCard(null)}
+                        onUpdate={handleUpdateCard}
+                    />
                 )}
             </div>
         </div>

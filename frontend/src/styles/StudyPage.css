@@ -53,20 +53,21 @@
 
 .card-container {
     background-color: #ffffff;
-    border-radius: 20px;
-    padding: 20px;
+    border-radius: 8px;
+    padding: 2px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding-bottom: 65px;
     margin-bottom: 20px;
     position: relative;
-    height: 50vh;
+    min-height: 50vh;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
-.card {
+.flashcard {
     text-align: left;
     padding: 10px;
-    height: 43vh;
+    height: 60vh;
     background-color: #f9f9f9;
     padding: 10px;
     border-radius: 8px;
@@ -79,8 +80,8 @@
 
 /* StudyPage.css */
 
-/* Add this CSS to style the card when showAnswer is true */
-.card.dark-mode {
+/* Add this CSS to style the flashcardwhen showAnswer is true */
+.flashcard.dark-mode {
     background-color: #000000;
     /* Black background */
     color: #ffffff;
@@ -88,22 +89,22 @@
 }
 
 /* Add this CSS to style the text elements in the dark mode */
-.card.dark-mode .card-header,
-.card.dark-mode .card-content,
-.card.dark-mode .current {
+.flashcard.dark-mode .card-header,
+.flashcard.dark-mode .card-content,
+.flashcard.dark-mode .current {
     color: #ffffff;
     /* White text */
 }
 
 /* Optional: Style the button and difficulty span if needed */
-.card.dark-mode .flip-button {
+.flashcard.dark-mode .flip-button {
     color: #ffffff;
     /* White text for the button */
     background-color: #333333;
     /* Dark gray background for the button */
 }
 
-.card.dark-mode #difficulty {
+.flashcard.dark-mode #difficulty {
     color: black;
     /* White text for the difficulty span */
 }
@@ -121,7 +122,7 @@
 
 
 
-.card h2 {
+.flashcardh2 {
     font-size: 18px;
     color: #6b6b6b;
     margin: 0;
@@ -139,7 +140,7 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.card p {
+.flashcardp {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
@@ -196,27 +197,41 @@
     margin-top: 10px;
 }
 
-#nav-button {
-    padding: 10px 15px;
-    background-color: #f0f0f0;
+.navigation {
+    position: absolute; /* Allows the navigation to be positioned relative to the card-container */
+    left: 0; /* Aligns the navigation to the left side */
+    bottom: 3px; /* Adjust the space from the bottom as needed */
+    display: flex;
+    align-items: center; /* Center-align the items vertically */
+    gap: 10px; /* Space between buttons and progress indicator */
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: background color for visibility */
+    border-radius: 5px; /* Optional: rounded corners */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+  }
+  
+  #nav-button {
+    background-color: #f0f0f0; /* Light background for buttons */
     border: none;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 15px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    height: 40px;
-    transition: background-color 0.3s;
-}
-
-#nav-button:hover {
-    background-color: black;
-    color: white;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  #nav-button:hover {
+    background-color: #ddd; /* Darker background on hover */
+  }
+  
+  #prog {
+    font-size: 1em;
+    margin: 0 10px;
+    /* Any additional styles for the progress indicator */
+  }
 
 #prog {
-    color: white;
+    color: black;
 }
 
 .dark-overlay {

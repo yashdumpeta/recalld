@@ -1,12 +1,14 @@
-#entire{
+#entire {
     background-color: #121212;
+    height: max-content;
 }
 
 #main-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    width: 95%; /* This ensures some padding on very wide screens */
+    width: 95%;
+    /* This ensures some padding on very wide screens */
 }
 
 #header-block {
@@ -17,6 +19,7 @@
     margin-top: 20px;
     flex-wrap: nowrap;
 }
+
 .left-header {
     display: flex;
     align-items: center;
@@ -33,14 +36,16 @@
     display: flex;
     align-items: center;
     white-space: nowrap;
-    height: 40px; /* Set a fixed height */
+    height: 40px;
+    /* Set a fixed height */
 }
 
 #managecards-header {
     margin: 0;
     font-size: 1.5rem;
     white-space: nowrap;
-    line-height: 40px; /* Match the height of the buttons */
+    line-height: 40px;
+    /* Match the height of the buttons */
     color: white;
     border: none;
     border-bottom: 1.2px solid white;
@@ -54,7 +59,8 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    height: 40px; /* Set a fixed height */
+    height: 40px;
+    /* Set a fixed height */
     display: flex;
     align-items: center;
 }
@@ -64,13 +70,16 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+    background-color: #121212;
+    margin-bottom: 75px;
+
 }
 
 .card {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ;
+    transition: transform 0.3s;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -78,10 +87,12 @@
 }
 
 .card:hover {
-    transform: scale(1.015); /* Adjust the scale factor as needed */
+    transform: scale(1.015);
+    /* Adjust the scale factor as needed */
 }
 
-.front-side, .back-side {
+.front-side,
+.back-side {
     text-align: left;
     word-wrap: break-word;
 }
@@ -90,12 +101,16 @@
     font-size: 1.1rem;
     margin-bottom: 4px;
     font-weight: bold;
+    margin: 20px;
 }
 
 .back-side {
     font-size: 1rem;
     margin-bottom: 10px;
     flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
 }
 
 .difficulty {
@@ -148,6 +163,15 @@
     }
 }
 
+.delete-button{
+    background: transparent;
+    border: none;
+}
+
+.delete-button:hover{
+    cursor: pointer;
+    color: red;
+}
 
 
 .filter-sort-container {
@@ -174,6 +198,10 @@
     background-color: #3a3a3a;
 }
 
+#no-cards {
+    color: white;
+}
+
 .styled-select:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
@@ -183,7 +211,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
@@ -219,4 +247,14 @@
     #create-card-button {
         margin-top: 10px;
     }
+}
+
+.edit-card {
+    background: transparent;
+    border: none;
+}
+
+.edit-card:hover {
+    cursor: pointer;
+    color: green;
 }
