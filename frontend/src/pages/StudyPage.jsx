@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import api from '../api'
 import '../styles/StudyPage.css'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { FaArrowLeft, FaArrowRight, FaCheck, } from 'react-icons/fa'
+import { FaX } from 'react-icons/fa6'
 
 const StudyPage = () => {
   const [deck, setDeck] = useState(null)
@@ -87,6 +88,25 @@ const StudyPage = () => {
 
   const currentCard = cards[currentCardIndex];
 
+  const handleCorrect = () => {
+    setshowAnswer(false);
+    setcurrentCardIndex((prev) => (prev + 1) % cards.length);
+
+  }
+
+  const handleIncorrect = () => {
+    setshowAnswer(false);
+    setcurrentCardIndex((prev) => (prev + 1) % cards.length);
+
+  }
+
+
+  const handleSkip = () => {
+    setshowAnswer(false);
+    setcurrentCardIndex((prev) => (prev + 1) % cards.length);
+
+  }
+
   return (
     <div className='entire-container'>
       <div className="study-page">
@@ -117,14 +137,15 @@ const StudyPage = () => {
             </p>
           </div>
           <div className='options'>
-
             <div className="navigation">
               <button id='nav-button' onClick={handlePrev}><FaArrowLeft /></button>
               <span id='prog'>{currentCardIndex + 1} / {cards.length}</span>
               <button id='nav-button' onClick={handleNext}><FaArrowRight /></button>
             </div>
-            <div className="userProg">
-              {/* <button id="correct">  </button> */}
+            <div className="userProgress">
+              <button id="incorrect" onClick={handleIncorrect}> <FaX /> </button>
+              <button id='skip' onClick={handleSkip}> - </button>
+              <button id="correct" onClick={handleCorrect}> <FaCheck /> </button>
             </div>
           </div>
         </div>
@@ -135,3 +156,17 @@ const StudyPage = () => {
 }
 
 export default StudyPage;
+
+
+/*
+.options {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+ */

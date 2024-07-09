@@ -124,6 +124,7 @@
     right: 10px;
     text-align: right;
     margin: 10px;
+    
 }
 
 #created, #updated{
@@ -266,4 +267,28 @@
 #deck-description {
     text-align: left;
     margin: 10px;
+    color: rgb(78, 78, 78);
+}
+
+#start{
+    border-radius: 6px;
+    background-color: white;
+    color: black;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+    border: black 1px solid;
+}
+
+#start:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    
 }

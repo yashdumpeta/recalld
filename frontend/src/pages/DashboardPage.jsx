@@ -10,6 +10,7 @@ const DashboardPage = () => {
   const [decks, setDecks] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const [editingDeck, setEditingDeck] = useState(null)
+  const [update, setUpdate] = useState('')
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,8 @@ const DashboardPage = () => {
     } catch (error) {
       console.error("Error fetching decks:", error);
       setDecks([]);
+    } finally{
+      console.log(decks)
     }
   }
 
@@ -57,7 +60,6 @@ const DashboardPage = () => {
               <p id='deck-description'>{deck.description}</p>
               <div className="dates">
                 <p id='created'>Created: {new Date(deck.time_created).toLocaleDateString()}</p>
-                <p id='updated'>Last Updated: {new Date(deck.last_updated).toLocaleDateString()}</p>
               </div>
               <div className="deck-actions">
                 <button onClick={() => handleEdit(deck)}><FaPencilAlt className='icon-style' /></button>
@@ -72,7 +74,7 @@ const DashboardPage = () => {
         <EditDeckModal
           deck={editingDeck}
           onClose={() => setEditingDeck(null)}
-          
+
           onUpdate={handleUpdateDeck}
         />
       )}
@@ -111,9 +113,9 @@ const DashboardPage = () => {
         <div className="deck-grid">
           {decks.map(deck => (
             <div key={deck.id} className="deck-item">
-              <h3>{deck.deck_name}</h3>
-              <p>{deck.description}</p>
-              <button onClick={() => navigate(`/study/${deck.id}`)}>Start recalling</button>
+              <h1 id='deck-name'>{deck.deck_name}</h1>
+              <p id='deck-description'>{deck.description}</p>
+              <button id='start' onClick={() => navigate(`/study/${deck.id}`)}>Start recalling</button>
             </div>
           ))}
         </div>

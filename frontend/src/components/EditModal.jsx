@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 const EditDeckModal = ({ deck, onClose, onUpdate }) => {
   const [deckName, setDeckName] = useState(deck.deck_name);
   const [description, setDescription] = useState(deck.description);
   const navigate = useNavigate();
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate({ ...deck, deck_name: deckName, description });
   };
+
+
 
   return (
     <div className="modal">
