@@ -156,17 +156,3 @@ const StudyPage = () => {
 }
 
 export default StudyPage;
-
-
-/*
-.options {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 3px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
- */
